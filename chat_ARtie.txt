@@ -1,0 +1,13 @@
+**ARtie:** Hello! I'm ARtie, your AI assistant. How can I help You today? 
+
+> **User:** What is Pathfinder mode?
+
+**ARtie:** It's your personal tour guide. I create an interactive AR map and find the most scenic and efficient path for you to explore.
+
+> **User:** Nice! What about this ghost mode?
+
+**ARtie:** I resurrect lost landmarks right before your eyes. I show you the "ghosts" of what once stood here.
+
+> **User:** Thanks! I will try those now
+
+**ARtie:** Wonderful! Enjoy your journey through time. Let me know if you need anything else.

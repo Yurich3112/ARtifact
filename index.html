@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ARtifact</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <div class="background-image"></div>
+    <div class="app-container">
+        <header>
+            <img src="logo.png" alt="ARtifact Logo" class="logo">
+        </header>
+
+        <main id="main-content" class="main-content">
+            <a href="https://app.vectary.com/p/2xRRu5tHD3dk56TEvCMntY" class="card ghost-card">
+                <div class="card-icon">
+                    <span class="material-symbols-outlined">view_in_ar</span>
+                </div>
+                <div class="card-text">
+                    <h2>Ghost of the Past</h2>
+                    <p>Uncover hidden stories and ancient secrets</p>
+                </div>
+            </a>
+
+            <a href="https://app.vectary.com/p/0pxcWFFfppQnA4NoZz64RL" class="card pathfinder-card">
+                <div class="card-icon">
+                    <span class="material-symbols-outlined">explore</span>
+                </div>
+                <div class="card-text">
+                    <h2>Pathfinder</h2>
+                    <p>Navigate through mysterious locations</p>
+                </div>
+            </a>
+        </main>
+
+        <!-- CHATBOT WINDOW -->
+        <div id="chatbot-window" class="chatbot-window">
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <span class="material-symbols-outlined">auto_awesome</span>
+                    <span>ARtie</span>
+                </div>
+                <button id="close-chat-btn" class="close-chat-btn">&times;</button>
+            </div>
+            <!-- UPDATED: Messages are now added dynamically -->
+            <div id="chat-messages" class="chat-messages">
+                <!-- Messages will be injected here by script.js -->
+            </div>
+            <div class="chat-input-area">
+                <!-- UPDATED: Added IDs for easier selection -->
+                <input id="chat-input" type="text" placeholder="Ask ARtie...">
+                <button id="send-btn" class="send-btn">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+        </div>
+        <!-- END CHATBOT WINDOW -->
+
+        <button id="ask-artie-btn" class="ask-artie-btn">
+            <span class="material-symbols-outlined">auto_awesome</span>
+            <span class="btn-text">Ask ARtie</span>
+        </button>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <span class="material-symbols-outlined">home</span>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="material-symbols-outlined">search</span>
+                <span>Explore</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="material-symbols-outlined">bookmark</span>
+                <span>Saved</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="material-symbols-outlined">person</span>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
