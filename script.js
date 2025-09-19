@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Element References ---
-    const askArtieBtn = document.getElementById('ask-artie-btn');
+    const artieContainer = document.getElementById('ask-artie-container');
     const chatbotWindow = document.getElementById('chatbot-window');
     const closeChatBtn = document.getElementById('close-chat-btn');
     const mainContent = document.getElementById('main-content');
@@ -18,51 +18,37 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     let artieMessageIndex = 0;
     let isArtieTyping = false;
-    // ADDED: Flag to track if the chat has been started
     let isChatInitialized = false;
 
     // --- Core Functions ---
 
-    /**
-     * Initializes the chat on the first open, displaying the welcome message.
-     */
     const initializeChat = () => {
-        chatMessages.innerHTML = ''; // Clear any residual content
+        chatMessages.innerHTML = '';
         artieMessageIndex = 0;
         isArtieTyping = false;
-        // Wait for the window to open before typing
+        // Delay to allow animation to almost complete
         setTimeout(() => {
             typeArtieMessage();
-        }, 500); // Delay should match the CSS transition duration
+        }, 500);
     };
 
-    /**
-     * Simulates ARtie typing a message letter by letter.
-     */
     const typeArtieMessage = () => {
-        if (isArtieTyping || artieMessageIndex >= chatScript.length) {
-            return;
-        }
+        if (isArtieTyping || artieMessageIndex >= chatScript.length) return;
         isArtieTyping = true;
         const messageText = chatScript[artieMessageIndex];
         
-        // Create the message elements
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message artie-message';
         messageDiv.innerHTML = `
             <div class="message-avatar robot">
                 <span class="material-symbols-outlined">smart_toy</span>
             </div>
-            <div class="message-bubble">
-                <p></p>
-                <span class="message-time">${getCurrentTime()}</span>
-            </div>
+            <div class="message-bubble"><p></p><span class="message-time">${getCurrentTime()}</span></div>
         `;
         chatMessages.appendChild(messageDiv);
         const p = messageDiv.querySelector('p');
-        chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Type out the message
         let i = 0;
         const typingInterval = setInterval(() => {
             if (i < messageText.length) {
@@ -74,12 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 artieMessageIndex++;
                 isArtieTyping = false;
             }
-        }, 35); // Adjust typing speed (milliseconds)
+        }, 35);
     };
     
-    /**
-     * Adds the user's message to the chat window.
-     */
     const addUserMessage = () => {
         const text = chatInput.value.trim();
         if (text === '' || isArtieTyping) return;
@@ -87,60 +70,49 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message user-message';
         messageDiv.innerHTML = `
-            <div class="message-bubble">
-                <p>${text}</p>
-                <span class="message-time">${getCurrentTime()}</span>
-            </div>
-            <div class="message-avatar user">
-               <span>U</span>
-            </div>
+            <div class="message-bubble"><p>${text}</p><span class="message-time">${getCurrentTime()}</span></div>
+            <div class="message-avatar user"><span>U</span></div>
         `;
         chatMessages.appendChild(messageDiv);
         chatInput.value = '';
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Trigger ARtie's next response
-        setTimeout(typeArtieMessage, 1000); // Add a 1-second delay for realism
+        setTimeout(typeArtieMessage, 1000);
     };
 
-    /**
-     * Gets the current time in a HH:MM AM/PM format.
-     */
-    const getCurrentTime = () => {
-        const now = new Date();
-        return now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-    };
-
+    const getCurrentTime = () => new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 
     // --- Event Listeners ---
 
     // Open chatbot
-    askArtieBtn.addEventListener('click', () => {
-        // Always perform the UI changes to show the window
-        mainContent.classList.add('squished');
-        chatbotWindow.classList.add('visible');
-        askArtieBtn.classList.add('hidden');
-
-        // UPDATED: Only start a new chat if it hasn't been started before
-        if (!isChatInitialized) {
-            initializeChat();
-            isChatInitialized = true; // Set the flag to true after the first run
+    artieContainer.addEventListener('click', () => {
+        if (!artieContainer.classList.contains('chat-open')) {
+            mainContent.classList.add('squished');
+            artieContainer.classList.add('chat-open');
+            
+            if (!isChatInitialized) {
+                initializeChat();
+                isChatInitialized = true;
+            }
         }
     });
 
     // Close chatbot
-    closeChatBtn.addEventListener('click', () => {
+    closeChatBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
         mainContent.classList.remove('squished');
-        chatbotWindow.classList.remove('visible');
-        askArtieBtn.classList.remove('hidden');
+        artieContainer.classList.remove('chat-open');
+    });
+
+    // Stop clicks inside the chat window from triggering the container's click event
+    chatbotWindow.addEventListener('click', (event) => {
+        event.stopPropagation();
     });
 
     // Handle sending a message
     sendBtn.addEventListener('click', addUserMessage);
     chatInput.addEventListener('keyup', (event) => {
-        if (event.key === 'Enter') {
-            addUserMessage();
-        }
+        if (event.key === 'Enter') addUserMessage();
     });
 
     // Handle navigation clicks
@@ -149,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             navItems.forEach(i => i.classList.remove('active'));
             item.classList.add('active');
-            console.log(`Navigated to: ${item.querySelector('span:last-child').textContent}`);
         });
     });
 });

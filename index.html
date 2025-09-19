@@ -37,33 +37,35 @@
             </a>
         </main>
 
-        <!-- CHATBOT WINDOW -->
-        <div id="chatbot-window" class="chatbot-window">
-            <div class="chatbot-header">
-                <div class="chatbot-title">
-                    <span class="material-symbols-outlined">auto_awesome</span>
-                    <span>ARtie</span>
+        <!-- Button container that expands into the chat window -->
+        <div id="ask-artie-container" class="ask-artie-container">
+            <!-- The visible button content -->
+            <div class="ask-artie-btn-content">
+                <span class="material-symbols-outlined">auto_awesome</span>
+                <span class="btn-text">Ask ARtie</span>
+            </div>
+
+            <!-- The chat window is INSIDE the button container -->
+            <div id="chatbot-window" class="chatbot-window">
+                <div class="chatbot-header">
+                    <div class="chatbot-title">
+                        <span class="material-symbols-outlined">auto_awesome</span>
+                        <span>ARtie</span>
+                    </div>
+                    <button id="close-chat-btn" class="close-chat-btn">&times;</button>
                 </div>
-                <button id="close-chat-btn" class="close-chat-btn">&times;</button>
-            </div>
-            <!-- UPDATED: Messages are now added dynamically -->
-            <div id="chat-messages" class="chat-messages">
-                <!-- Messages will be injected here by script.js -->
-            </div>
-            <div class="chat-input-area">
-                <!-- UPDATED: Added IDs for easier selection -->
-                <input id="chat-input" type="text" placeholder="Ask ARtie...">
-                <button id="send-btn" class="send-btn">
-                    <span class="material-symbols-outlined">send</span>
-                </button>
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Messages will be injected here by script.js -->
+                </div>
+                <div class="chat-input-area">
+                    <input id="chat-input" type="text" placeholder="Ask ARtie...">
+                    <button id="send-btn" class="send-btn">
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </div>
             </div>
         </div>
-        <!-- END CHATBOT WINDOW -->
 
-        <button id="ask-artie-btn" class="ask-artie-btn">
-            <span class="material-symbols-outlined">auto_awesome</span>
-            <span class="btn-text">Ask ARtie</span>
-        </button>
 
         <nav class="bottom-nav">
             <a href="#" class="nav-item active">
