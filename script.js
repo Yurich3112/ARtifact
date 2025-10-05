@@ -149,6 +149,22 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         }, 500);
     };
 
+    // Convert markdown formatting to HTML
+    const formatMarkdown = (text) => {
+        // Bold: **text** or __text__
+        text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        text = text.replace(/__(.+?)__/g, '<strong>$1</strong>');
+        
+        // Italic: *text* or _text_
+        text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        text = text.replace(/_(.+?)_/g, '<em>$1</em>');
+        
+        // Line breaks
+        text = text.replace(/\n/g, '<br>');
+        
+        return text;
+    };
+
     const sendArtieMessage = (messageText, shouldType = true) => {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message artie-message';
@@ -165,7 +181,7 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         if (shouldType) {
             typeText(p, messageText);
         } else {
-            p.textContent = messageText;
+            p.innerHTML = formatMarkdown(messageText);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     };
@@ -173,13 +189,27 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
     const typeText = (element, text) => {
         isArtieTyping = true;
         let i = 0;
+        const formattedText = formatMarkdown(text);
+        
+        // Create a temporary element to extract plain text for typing
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = formattedText;
+        const plainText = tempDiv.textContent;
+        
         const typingInterval = setInterval(() => {
-            if (i < text.length) {
-                element.textContent += text.charAt(i);
+            if (i < plainText.length) {
+                // Type character by character, but apply formatting at the end
                 i++;
+                const currentPlainText = plainText.substring(0, i);
+                
+                // Re-apply markdown to the substring for progressive formatting
+                let partialFormatted = text.substring(0, i);
+                element.innerHTML = formatMarkdown(partialFormatted);
+                
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             } else {
                 clearInterval(typingInterval);
+                element.innerHTML = formattedText;
                 isArtieTyping = false;
             }
         }, 20);

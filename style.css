@@ -209,7 +209,9 @@ header {
 .message.artie-message { align-self: flex-start; }
 .message.user-message { align-self: flex-end; }
 .message-bubble { padding: 12px 16px; border-radius: 20px; }
-.message-bubble p { margin: 0; font-size: 0.95rem; line-height: 1.4; }
+.message-bubble p { margin: 0; font-size: 0.95rem; line-height: 1.5; }
+.message-bubble p strong { font-weight: 700; color: inherit; }
+.message-bubble p em { font-style: italic; opacity: 0.95; }
 .message-time { font-size: 0.75rem; color: #6b7280; text-align: left; margin-top: 5px; display: block; }
 
 .artie-message .message-bubble { background: var(--light-purple-chat-bubble); color: #1f2937; border-bottom-left-radius: 8px; }

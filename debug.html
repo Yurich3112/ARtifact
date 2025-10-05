@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARtifact Debug Tool</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #10B981; }
+        .test { 
+            background: #2d2d44;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #666;
+        }
+        .test.success { border-left-color: #10B981; }
+        .test.error { border-left-color: #F97316; }
+        .test h3 { margin-top: 0; }
+        button {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover { background: #059669; }
+        pre {
+            background: #1a1a2e;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .status { font-weight: bold; }
+        .status.ok { color: #10B981; }
+        .status.fail { color: #F97316; }
+    </style>
+</head>
+<body>
+    <h1>🔍 ARtifact Debug Tool</h1>
+    <p>This tool will help diagnose connection issues with ARtie.</p>
+    
+    <button onclick="runAllTests()">Run All Tests</button>
+    <button onclick="clearResults()">Clear Results</button>
+    
+    <div id="results"></div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWzGmpwKxxcdxI9ppHO_8QY4Gb60cDxT0",
+            authDomain: "artifact-app-a0dcf.firebaseapp.com",
+            projectId: "artifact-app-a0dcf",
+            storageBucket: "artifact-app-a0dcf.firebasestorage.app",
+            messagingSenderId: "680092631399",
+            appId: "1:680092631399:web:1f3c500fe73f485f6bafc2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        
+        const API_PROXY_URL = 'https://artifact-chatbot-proxy.golovko3112.workers.dev/chat';
+        
+        let currentUser = null;
+        let userIdToken = null;
+
+        window.runAllTests = async function() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<h2>Running Tests...</h2>';
+            
+            await test1_FirebaseConfig();
+            await test2_WorkerConnection();
+            await test3_FirebaseAuth();
+            await test4_WorkerAuth();
+            await test5_FullChatTest();
+        };
+
+        window.clearResults = function() {
+            document.getElementById('results').innerHTML = '';
+        };
+
+        function addResult(title, status, message, details = '') {
+            const results = document.getElementById('results');
+            const statusClass = status === 'success' ? 'ok' : 'fail';
+            const testClass = status === 'success' ? 'success' : 'error';
+            
+            results.innerHTML += `
+                <div class="test ${testClass}">
+                    <h3>${title}</h3>
+                    <p class="status ${statusClass}">${status.toUpperCase()}</p>
+                    <p>${message}</p>
+                    ${details ? `<pre>${details}</pre>` : ''}
+                </div>
+            `;
+        }
+
+        async function test1_FirebaseConfig() {
+            try {
+                if (firebaseConfig.projectId === "artifact-app-a0dcf") {
+                    addResult(
+                        '✅ Test 1: Firebase Configuration',
+                        'success',
+                        'Firebase is configured correctly.',
+                        `Project ID: ${firebaseConfig.projectId}\nAuth Domain: ${firebaseConfig.authDomain}`
+                    );
+                } else {
+                    addResult(
+                        '❌ Test 1: Firebase Configuration',
+                        'error',
+                        'Firebase config looks wrong.',
+                        JSON.stringify(firebaseConfig, null, 2)
+                    );
+                }
+            } catch (e) {
+                addResult('❌ Test 1: Firebase Configuration', 'error', 'Error loading Firebase', e.message);
+            }
+        }
+
+        async function test2_WorkerConnection() {
+            try {
+                const response = await fetch(API_PROXY_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ test: true })
+                });
+                
+                const status = response.status;
+                const text = await response.text();
+                
+                if (status === 401) {
+                    addResult(
+                        '✅ Test 2: Worker Connection',
+                        'success',
+                        'Worker is reachable and auth is working! (Got 401 as expected without token)',
+                        `Status: ${status}\nResponse: ${text}`
+                    );
+                } else if (status === 404) {
+                    addResult(
+                        '❌ Test 2: Worker Connection',
+                        'error',
+                        'Worker endpoint not found. Check your Worker deployment.',
+                        `Status: ${status}\nURL: ${API_PROXY_URL}`
+                    );
+                } else {
+                    addResult(
+                        '⚠️ Test 2: Worker Connection',
+                        'error',
+                        `Unexpected response from Worker`,
+                        `Status: ${status}\nResponse: ${text}`
+                    );
+                }
+            } catch (e) {
+                addResult(
+                    '❌ Test 2: Worker Connection',
+                    'error',
+                    'Cannot connect to Worker. Check if it\'s deployed.',
+                    `Error: ${e.message}\nURL: ${API_PROXY_URL}`
+                );
+            }
+        }
+
+        async function test3_FirebaseAuth() {
+            try {
+                addResult(
+                    '🔄 Test 3: Firebase Authentication',
+                    'success',
+                    'Click the button below to sign in with Google...',
+                    ''
+                );
+                
+                // Add sign-in button
+                const lastTest = document.querySelector('.test:last-child');
+                const btn = document.createElement('button');
+                btn.textContent = 'Sign In with Google';
+                btn.onclick = async () => {
+                    try {
+                        btn.disabled = true;
+                        btn.textContent = 'Signing in...';
+                        const result = await signInWithPopup(auth, provider);
+                        currentUser = result.user;
+                        userIdToken = await currentUser.getIdToken();
+                        
+                        lastTest.className = 'test success';
+                        lastTest.innerHTML = `
+                            <h3>✅ Test 3: Firebase Authentication</h3>
+                            <p class="status ok">SUCCESS</p>
+                            <p>Successfully signed in!</p>
+                            <pre>User: ${currentUser.email}\nUID: ${currentUser.uid}\nToken Length: ${userIdToken.length} chars</pre>
+                        `;
+                        
+                        // Automatically run test 4
+                        await test4_WorkerAuth();
+                    } catch (e) {
+                        lastTest.className = 'test error';
+                        lastTest.innerHTML = `
+                            <h3>❌ Test 3: Firebase Authentication</h3>
+                            <p class="status fail">FAILED</p>
+                            <p>Sign-in failed!</p>
+                            <pre>${e.message}</pre>
+                        `;
+                    }
+                };
+                lastTest.appendChild(btn);
+            } catch (e) {
+                addResult('❌ Test 3: Firebase Authentication', 'error', 'Error setting up auth', e.message);
+            }
+        }
+
+        async function test4_WorkerAuth() {
+            if (!currentUser || !userIdToken) {
+                addResult(
+                    '⏭️ Test 4: Worker Authentication',
+                    'error',
+                    'Skipped - Please complete Test 3 first (sign in)',
+                    ''
+                );
+                return;
+            }
+
+            try {
+                const response = await fetch(API_PROXY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userIdToken}`
+                    },
+                    body: JSON.stringify({
+                        message: 'Test message',
+                        history: [],
+                        systemPrompt: 'You are a test bot. Say "Test successful!"'
+                    })
+                });
+
+                const status = response.status;
+                const text = await response.text();
+
+                if (status === 200) {
+                    addResult(
+                        '✅ Test 4: Worker Authentication',
+                        'success',
+                        'Worker accepted your token! Authentication is working.',
+                        `Status: ${status}\nResponse: ${text.substring(0, 200)}...`
+                    );
+                } else if (status === 401) {
+                    addResult(
+                        '❌ Test 4: Worker Authentication',
+                        'error',
+                        'Worker rejected your token. Check FIREBASE_PROJECT_ID in Worker settings.',
+                        `Status: ${status}\nResponse: ${text}\n\nMake sure FIREBASE_PROJECT_ID = "artifact-app-a0dcf" in Worker`
+                    );
+                } else {
+                    addResult(
+                        '❌ Test 4: Worker Authentication',
+                        'error',
+                        'Unexpected response from Worker',
+                        `Status: ${status}\nResponse: ${text}`
+                    );
+                }
+            } catch (e) {
+                addResult(
+                    '❌ Test 4: Worker Authentication',
+                    'error',
+                    'Error calling Worker with token',
+                    e.message
+                );
+            }
+        }
+
+        async function test5_FullChatTest() {
+            if (!currentUser || !userIdToken) {
+                addResult(
+                    '⏭️ Test 5: Full Chat Test',
+                    'error',
+                    'Skipped - Please complete Test 3 first (sign in)',
+                    ''
+                );
+                return;
+            }
+
+            try {
+                const response = await fetch(API_PROXY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userIdToken}`
+                    },
+                    body: JSON.stringify({
+                        message: 'Hello! Can you tell me about Ghost of the Past?',
+                        history: [],
+                        systemPrompt: 'You are Artie, a friendly AR tour guide. Keep responses very short (1-2 sentences).'
+                    })
+                });
+
+                const status = response.status;
+                const data = await response.json();
+
+                if (status === 200 && data.response) {
+                    addResult(
+                        '✅ Test 5: Full Chat Test',
+                        'success',
+                        'ARtie is working perfectly! Full chat flow successful.',
+                        `Artie's Response:\n"${data.response}"`
+                    );
+                } else {
+                    addResult(
+                        '❌ Test 5: Full Chat Test',
+                        'error',
+                        'Chat request failed',
+                        `Status: ${status}\nResponse: ${JSON.stringify(data, null, 2)}`
+                    );
+                }
+            } catch (e) {
+                addResult(
+                    '❌ Test 5: Full Chat Test',
+                    'error',
+                    'Error during chat test',
+                    e.message
+                );
+            }
+        }
+    </script>
+</body>
+</html>

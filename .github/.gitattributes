@@ -1,0 +1,4 @@
+# Firebase API keys are safe to commit (they're public by design)
+# Tell GitHub secret scanning to ignore them
+script.js linguist-generated=false
+*.html linguist-vendored=false
