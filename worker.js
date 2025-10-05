@@ -1,6 +1,30 @@
 // Cloudflare Worker for ARtifact AI Chatbot
 // This proxy keeps your API key secure by handling requests server-side
 
+// Simple token verification (validates Firebase ID token format)
+async function verifyFirebaseToken(token, projectId) {
+  if (!token) return false;
+  
+  try {
+    // Decode JWT header and payload (basic validation)
+    const parts = token.split('.');
+    if (parts.length !== 3) return false;
+    
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+    
+    // Basic checks
+    if (!payload.aud || !payload.exp || !payload.iat) return false;
+    if (payload.aud !== projectId) return false;
+    if (Date.now() / 1000 > payload.exp) return false; // Token expired
+    
+    // For production, use Google's public keys to verify signature
+    // This is a simplified version that checks basic token structure
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export default {
   async fetch(request, env) {
     // Handle CORS preflight requests
@@ -9,7 +33,7 @@ export default {
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         },
       });
     }
@@ -18,6 +42,31 @@ export default {
     const url = new URL(request.url);
     if (request.method !== 'POST' || url.pathname !== '/chat') {
       return new Response('Not Found', { status: 404 });
+    }
+
+    // Check authentication
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized', message: 'Authentication required' }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+    }
+
+    const token = authHeader.substring(7);
+    const isValid = await verifyFirebaseToken(token, env.FIREBASE_PROJECT_ID || 'your-project-id');
+    
+    if (!isValid) {
+      return new Response(JSON.stringify({ error: 'Unauthorized', message: 'Invalid authentication token' }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
     }
 
     try {

@@ -1,3 +1,26 @@
+// Firebase configuration
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+// Firebase config
+const firebaseConfig = {
+    apiKey: "AIzaSyCWzGmpwKxxcdxI9ppHO_8QY4Gb60cDxT0",
+    authDomain: "artifact-app-a0dcf.firebaseapp.com",
+    projectId: "artifact-app-a0dcf",
+    storageBucket: "artifact-app-a0dcf.firebasestorage.app",
+    messagingSenderId: "680092631399",
+    appId: "1:680092631399:web:1f3c500fe73f485f6bafc2"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+// Global state
+let currentUser = null;
+let userIdToken = null;
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- Element References ---
     const artieContainer = document.getElementById('ask-artie-container');
@@ -8,6 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
+    
+    // Auth elements
+    const authOverlay = document.getElementById('auth-overlay');
+    const googleSigninBtn = document.getElementById('google-signin-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const userProfile = document.getElementById('user-profile');
+    const userAvatar = document.getElementById('user-avatar');
 
     // --- Configuration ---
     // Your Cloudflare Worker URL
@@ -47,16 +77,75 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
 - Frame answers as invitations, not lectures
 - Avoid controversial topics; steer back to exploration`;
 
+    // --- Authentication Functions ---
+
+    const handleGoogleSignIn = async () => {
+        try {
+            googleSigninBtn.disabled = true;
+            googleSigninBtn.textContent = 'Signing in...';
+            
+            const result = await signInWithPopup(auth, provider);
+            // User signed in successfully - onAuthStateChanged will handle the rest
+        } catch (error) {
+            console.error('Sign-in error:', error);
+            alert('Failed to sign in. Please try again.');
+            googleSigninBtn.disabled = false;
+            googleSigninBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18">...</svg>Sign in with Google';
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            // Reset state
+            currentUser = null;
+            userIdToken = null;
+            conversationHistory = [];
+            isChatInitialized = false;
+        } catch (error) {
+            console.error('Logout error:', error);
+            alert('Failed to log out. Please try again.');
+        }
+    };
+
+    const updateUIForAuthState = (user) => {
+        if (user) {
+            // User is signed in
+            authOverlay.style.display = 'none';
+            userProfile.style.display = 'flex';
+            userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
+            artieContainer.style.pointerEvents = 'auto';
+            artieContainer.style.opacity = '1';
+        } else {
+            // User is signed out
+            authOverlay.style.display = 'flex';
+            userProfile.style.display = 'none';
+            artieContainer.style.pointerEvents = 'none';
+            artieContainer.style.opacity = '0.5';
+            
+            // Close chat if open
+            if (artieContainer.classList.contains('chat-open')) {
+                mainContent.classList.remove('squished');
+                artieContainer.classList.remove('chat-open');
+            }
+        }
+    };
+
     // --- Core Functions ---
 
     const initializeChat = () => {
+        if (!currentUser) {
+            alert('Please sign in to chat with ARtie');
+            return;
+        }
+        
         chatMessages.innerHTML = '';
         conversationHistory = [];
         isArtieTyping = false;
         
         // Send initial greeting
         setTimeout(() => {
-            sendArtieMessage("Hello! I'm ARtie, your AI assistant. How can I help you today? ✨");
+            sendArtieMessage(`Hello ${currentUser.displayName?.split(' ')[0] || 'there'}! I'm ARtie, your AI guide. How can I help you explore today? ✨`);
         }, 500);
     };
 
@@ -121,11 +210,18 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
     const getAIResponse = async (userMessage) => {
         isArtieTyping = true;
         
+        if (!currentUser || !userIdToken) {
+            isArtieTyping = false;
+            sendArtieMessage("Sorry, you need to be signed in to chat with me! Please log in first. 🔐", true);
+            return;
+        }
+        
         try {
             const response = await fetch(API_PROXY_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userIdToken}`
                 },
                 body: JSON.stringify({
                     message: userMessage,
@@ -167,8 +263,32 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
 
     // --- Event Listeners ---
 
+    // Auth event listeners
+    googleSigninBtn.addEventListener('click', handleGoogleSignIn);
+    logoutBtn.addEventListener('click', handleLogout);
+
+    // Auth state observer
+    onAuthStateChanged(auth, async (user) => {
+        currentUser = user;
+        
+        if (user) {
+            // Get fresh ID token
+            userIdToken = await user.getIdToken();
+            console.log('User signed in:', user.email);
+        } else {
+            console.log('User signed out');
+        }
+        
+        updateUIForAuthState(user);
+    });
+
     // Open chatbot
     artieContainer.addEventListener('click', () => {
+        if (!currentUser) {
+            alert('Please sign in to chat with ARtie! 🔐');
+            return;
+        }
+        
         if (!artieContainer.classList.contains('chat-open')) {
             mainContent.classList.add('squished');
             artieContainer.classList.add('chat-open');
