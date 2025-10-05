@@ -1,0 +1,12 @@
+# Cloudflare Workers configuration file
+name = "artifact-chatbot-proxy"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# This will be set via GitHub Secrets or wrangler CLI
+# Don't add your actual API key here!
+# Use: wrangler secret put GEMINI_API_KEY
+# Or set it in Cloudflare Workers dashboard
+
+[env.production]
+name = "artifact-chatbot-proxy"
