@@ -27,10 +27,10 @@ An augmented reality app with an intelligent chatbot companion powered by Google
 
 ### 3. Deploy to GitHub Pages
 
-1. Push your code to a GitHub repository (the API key placeholder `%GEMINI_API_KEY%` in script.js is safe to commit)
+1. Push your code to a GitHub repository (the placeholder `%GEMINI_API_KEY%` in script.js is safe to commit)
 2. Go to Settings > Pages in your repository
 3. Under "Source", select **"GitHub Actions"**
-4. The GitHub Actions workflow will automatically build and deploy your app with the real API key
+4. The GitHub Actions workflow will automatically build and deploy your app with the real API key injected
 5. Your app will be available at `https://yourusername.github.io/repository-name`
 
 ## API Key Security
@@ -67,9 +67,9 @@ The system prompt for ARtie is defined in the `SYSTEM_PROMPT` variable in `scrip
 ### API Configuration
 
 You can modify these settings in `script.js`:
-- `GEMINI_API_KEY`: Your Google Gemini API key
-- `CORS_PROXY_URL`: Alternative CORS proxy service
+- `CORS_PROXY_URL`: Alternative CORS proxy service (default: `api.allorigins.win`)
 - `GEMINI_API_URL`: API endpoint (currently using gemini-2.0-flash-lite)
+- `GEMINI_API_KEY`: This is automatically injected via GitHub Actions (do not modify manually)
 
 ## Troubleshooting
 

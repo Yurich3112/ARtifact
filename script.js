@@ -198,7 +198,7 @@ Example 3: User asks a specific historical question.
         if (!artieContainer.classList.contains('chat-open')) {
             mainContent.classList.add('squished');
             artieContainer.classList.add('chat-open');
-            
+
             if (!isChatInitialized) {
                 initializeChat();
                 isChatInitialized = true;
