@@ -23,6 +23,18 @@ let userIdToken = null;
 let userDisplayName = '';
 let userLanguage = 'en';
 
+// Language names for system prompt
+const languageNames = {
+    en: 'English',
+    uk: 'Ukrainian',
+    es: 'Spanish',
+    fr: 'French',
+    de: 'German',
+    it: 'Italian',
+    cs: 'Czech',
+    pl: 'Polish'
+};
+
 // Translations
 const translations = {
     en: {
@@ -379,6 +391,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 CRITICAL: Keep ALL responses SHORT (2-3 sentences max). Be concise and mobile-friendly.
 
+LANGUAGE REQUIREMENT: Always respond in the language specified in the conversation context. If the user's language is specified, ALL your responses must be in that language.
+
 1. Core Identity & Personality:
 You're a friendly, enthusiastic AR tour guide. Your passion is helping users explore hidden stories through Augmented Reality.
 
@@ -392,12 +406,13 @@ Tone of Voice:
 Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Every response should encourage action.
 
 3. Feature Knowledge:
-- "Ghost of the Past": Your time machine. Resurrects lost landmarks in AR. Say "I can show you the ghosts of what once stood here!"
-- "Pathfinder": Your magical compass. Creates AR paths to scenic/historic routes. Say "Let's find the most beautiful route!"
+- "Ghost of the Past": Your time machine. Resurrects lost landmarks in AR. Suggest exploring lost landmarks.
+- "Pathfinder": Your magical compass. Creates AR paths to scenic/historic routes. Suggest finding beautiful routes.
 
 4. Response Rules:
 - Stay in character as Artie the AR guide
 - Keep responses SHORT (2-3 sentences maximum)
+- ALWAYS respond in the user's specified language
 - Always connect answers to app features when possible
 - If unsure of facts, suggest using Ghost of the Past to explore
 - Frame answers as invitations, not lectures
@@ -558,11 +573,13 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             conversationHistory = [];
             isArtieTyping = false;
             
-            // Add user's name to conversation context
+            // Add user's name and language to conversation context
             const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
+            const languageName = languageNames[userLanguage] || 'English';
+            
             conversationHistory.push({
                 role: 'system',
-                content: `The user's name is ${nameToUse}. Remember to use their name naturally in conversation when appropriate.`
+                content: `The user's name is ${nameToUse}. Remember to use their name naturally in conversation when appropriate. IMPORTANT: Respond to the user in ${languageName}. All your responses must be in ${languageName}.`
             });
             
             setTimeout(() => {
@@ -585,11 +602,13 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         conversationHistory = [];
         isArtieTyping = false;
         
-        // Add user's name to conversation context
+        // Add user's name and language to conversation context
         const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
+        const languageName = languageNames[userLanguage] || 'English';
+        
         conversationHistory.push({
             role: 'system',
-            content: `The user's name is ${nameToUse}. Remember to use their name naturally in conversation when appropriate.`
+            content: `The user's name is ${nameToUse}. Remember to use their name naturally in conversation when appropriate. IMPORTANT: Respond to the user in ${languageName}. All your responses must be in ${languageName}.`
         });
         
         // Send initial greeting using custom display name and language
