@@ -193,8 +193,15 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             chatMessages.innerHTML = '';
             conversationHistory = [];
             isArtieTyping = false;
+            
+            // Add user's name to conversation context
+            const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
+            conversationHistory.push({
+                role: 'system',
+                content: `The user's name is ${nameToUse}. Remember to use their name naturally in conversation when appropriate.`
+            });
+            
             setTimeout(() => {
-                const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
                 sendArtieMessage(`Hello ${nameToUse}! I'm ARtie, your AI guide. How can I help you explore today? ✨`);
             }, 300);
         }
@@ -212,9 +219,15 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         conversationHistory = [];
         isArtieTyping = false;
         
+        // Add user's name to conversation context
+        const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
+        conversationHistory.push({
+            role: 'system',
+            content: `The user's name is ${nameToUse}. Remember to use their name naturally in conversation when appropriate.`
+        });
+        
         // Send initial greeting using custom display name if set
         setTimeout(() => {
-            const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
             sendArtieMessage(`Hello ${nameToUse}! I'm ARtie, your AI guide. How can I help you explore today? ✨`);
         }, 500);
     };
@@ -317,10 +330,6 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         }
         
         try {
-            // Add user's name to system prompt
-            const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'the user';
-            const personalizedSystemPrompt = SYSTEM_PROMPT + `\n\nIMPORTANT: The user's name is ${nameToUse}. Address them by this name when appropriate.`;
-            
             const response = await fetch(API_PROXY_URL, {
                 method: 'POST',
                 headers: {
@@ -330,7 +339,7 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
                 body: JSON.stringify({
                     message: userMessage,
                     history: conversationHistory,
-                    systemPrompt: personalizedSystemPrompt
+                    systemPrompt: SYSTEM_PROMPT
                 })
             });
 
