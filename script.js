@@ -21,7 +21,7 @@ const provider = new GoogleAuthProvider();
 let currentUser = null;
 let userIdToken = null;
 let userDisplayName = '';
-let userLanguage = 'en';
+let userLanguage = 'auto'; // Can be 'auto' or a specific language code
 
 // Language names for system prompt
 const languageNames = {
@@ -33,6 +33,17 @@ const languageNames = {
     it: 'Italian',
     cs: 'Czech',
     pl: 'Polish'
+};
+
+// Helper function to detect browser language
+const detectBrowserLanguage = () => {
+    const browserLang = navigator.language.split('-')[0];
+    return translations[browserLang] ? browserLang : 'en';
+};
+
+// Helper function to resolve language (handles 'auto')
+const resolveLanguage = (lang) => {
+    return lang === 'auto' ? detectBrowserLanguage() : lang;
 };
 
 // Translations
@@ -445,9 +456,8 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             alert('Failed to sign in. Please try again.');
             googleSigninBtn.disabled = false;
             
-            // Restore the sign-in text based on current language
-            const browserLang = navigator.language.split('-')[0];
-            const currentLang = translations[browserLang] ? browserLang : 'en';
+            // Restore the sign-in text based on browser language
+            const currentLang = detectBrowserLanguage();
             const textSpan = googleSigninBtn.querySelector('[data-i18n="auth.signIn"]');
             if (textSpan) {
                 textSpan.textContent = translations[currentLang].auth.signIn;
@@ -489,10 +499,8 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             artieContainer.style.pointerEvents = 'none';
             artieContainer.style.opacity = '0.5';
             
-            // Apply default language for logged out users
-            const browserLang = navigator.language.split('-')[0];
-            const defaultLang = translations[browserLang] ? browserLang : 'en';
-            applyTranslations(defaultLang);
+            // Apply auto-detected language for logged out users
+            applyTranslations('auto');
             
             // Close chat if open
             if (artieContainer.classList.contains('chat-open')) {
@@ -506,7 +514,9 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
     };
 
     const applyTranslations = (lang) => {
-        const t = translations[lang] || translations['en'];
+        // Resolve 'auto' to actual language
+        const resolvedLang = resolveLanguage(lang);
+        const t = translations[resolvedLang] || translations['en'];
         
         // Helper function to get nested translation
         const getTranslation = (key) => {
@@ -538,13 +548,13 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         const savedLanguage = localStorage.getItem(`language_${user.uid}`);
         
         userDisplayName = savedName || user.displayName || '';
-        userLanguage = savedLanguage || 'en';
+        userLanguage = savedLanguage || 'auto'; // Default to 'auto'
         
         // Update UI
         displayNameInput.value = userDisplayName;
         languageSelect.value = userLanguage;
         
-        // Apply translations
+        // Apply translations (will resolve 'auto' to browser language)
         applyTranslations(userLanguage);
     };
 
@@ -573,9 +583,12 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             conversationHistory = [];
             isArtieTyping = false;
             
+            // Resolve language (handles 'auto')
+            const resolvedLang = resolveLanguage(userLanguage);
+            
             // Add user's name and language to conversation context
             const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
-            const languageName = languageNames[userLanguage] || 'English';
+            const languageName = languageNames[resolvedLang] || 'English';
             
             conversationHistory.push({
                 role: 'system',
@@ -583,7 +596,7 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             });
             
             setTimeout(() => {
-                const t = translations[userLanguage] || translations['en'];
+                const t = translations[resolvedLang] || translations['en'];
                 const greeting = t.chat.greeting.replace('{name}', nameToUse);
                 sendArtieMessage(greeting);
             }, 300);
@@ -602,9 +615,12 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         conversationHistory = [];
         isArtieTyping = false;
         
+        // Resolve language (handles 'auto')
+        const resolvedLang = resolveLanguage(userLanguage);
+        
         // Add user's name and language to conversation context
         const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
-        const languageName = languageNames[userLanguage] || 'English';
+        const languageName = languageNames[resolvedLang] || 'English';
         
         conversationHistory.push({
             role: 'system',
@@ -613,7 +629,7 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         
         // Send initial greeting using custom display name and language
         setTimeout(() => {
-            const t = translations[userLanguage] || translations['en'];
+            const t = translations[resolvedLang] || translations['en'];
             const greeting = t.chat.greeting.replace('{name}', nameToUse);
             sendArtieMessage(greeting);
         }, 500);
@@ -818,9 +834,8 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         googleSigninBtn.disabled = false;
         const textSpan = googleSigninBtn.querySelector('[data-i18n="auth.signIn"]');
         if (textSpan) {
-            const currentLang = user ? userLanguage : (navigator.language.split('-')[0]);
-            const lang = translations[currentLang] ? currentLang : 'en';
-            textSpan.textContent = translations[lang].auth.signIn;
+            const currentLang = user ? resolveLanguage(userLanguage) : detectBrowserLanguage();
+            textSpan.textContent = translations[currentLang].auth.signIn;
         }
     });
 
