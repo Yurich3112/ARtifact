@@ -83,30 +83,127 @@ header {
     margin-top: 24px; font-size: 13px; color: rgba(255, 255, 255, 0.5);
 }
 
-/* User Profile in Header */
-.user-profile {
-    display: flex; align-items: center; gap: 12px;
-    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+/* Profile Icon in Bottom Nav */
+.profile-icon-container {
+    position: relative;
+    width: 24px;
+    height: 24px;
 }
 
-.user-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.2); object-fit: cover;
+.profile-icon-default {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.logout-btn {
+.user-avatar-nav {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--nav-active);
+    object-fit: cover;
+    position: absolute;
+    top: -4px;
+    left: -4px;
+}
+
+#profile-nav-item.active .user-avatar-nav {
+    border-color: var(--nav-active);
+}
+
+/* Profile Settings Modal */
+.profile-settings-content {
+    margin-top: 24px;
+}
+
+.setting-group {
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.setting-group label {
+    display: block;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.profile-input,
+.profile-select {
+    width: 100%;
+    padding: 12px 16px;
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2); color: #fff;
-    padding: 8px; border-radius: 8px; cursor: pointer;
-    transition: all 0.3s ease; display: flex;
-    align-items: center; justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
 }
 
-.logout-btn:hover {
-    background: rgba(255, 77, 77, 0.2); border-color: rgba(255, 77, 77, 0.4);
+.profile-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
-.logout-btn .material-symbols-outlined { font-size: 20px; }
+.profile-input:focus,
+.profile-select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.profile-select option {
+    background: #1f1f2e;
+    color: #ffffff;
+}
+
+.setting-note {
+    margin-top: 6px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.logout-settings-btn {
+    width: 100%;
+    padding: 14px 24px;
+    background: rgba(255, 77, 77, 0.2);
+    border: 1px solid rgba(255, 77, 77, 0.4);
+    color: #ff4d4d;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 12px;
+}
+
+.logout-settings-btn:hover {
+    background: rgba(255, 77, 77, 0.3);
+    border-color: rgba(255, 77, 77, 0.6);
+}
+
+.close-profile-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-profile-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
 
 .main-content {
     flex-grow: 1; display: flex; flex-direction: column; justify-content: center;

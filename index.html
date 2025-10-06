@@ -28,17 +28,39 @@
         </div>
     </div>
 
+    <!-- Profile Settings Overlay -->
+    <div id="profile-overlay" class="auth-overlay" style="display: none;">
+        <div class="auth-modal">
+            <h2>Profile Settings</h2>
+            <div class="profile-settings-content">
+                <div class="setting-group">
+                    <label for="display-name-input">Display Name</label>
+                    <input type="text" id="display-name-input" class="profile-input" placeholder="Enter your name">
+                    <p class="setting-note">This is the name ARtie will use when talking to you</p>
+                </div>
+                <div class="setting-group">
+                    <label for="language-select">App Language</label>
+                    <select id="language-select" class="profile-select">
+                        <option value="en">English</option>
+                        <option value="uk">Українська</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                    </select>
+                    <p class="setting-note">Language for the app interface (ARtie responses coming soon)</p>
+                </div>
+                <button id="save-settings-btn" class="google-signin-btn">Save Settings</button>
+                <button id="logout-btn" class="logout-settings-btn">Sign Out</button>
+            </div>
+            <button id="close-profile-btn" class="close-profile-btn">&times;</button>
+        </div>
+    </div>
+
     <div class="background-image"></div>
     <div class="app-container">
-        <header>
-            <img src="logo.png" alt="ARtifact Logo" class="logo">
-            <div id="user-profile" class="user-profile" style="display: none;">
-                <img id="user-avatar" class="user-avatar" src="" alt="User">
-                <button id="logout-btn" class="logout-btn">
-                    <span class="material-symbols-outlined">logout</span>
-                </button>
-            </div>
-        </header>
+    <header>
+        <img src="logo.png" alt="ARtifact Logo" class="logo">
+    </header>
 
         <main id="main-content" class="main-content">
             <a href="https://app.vectary.com/p/2xRRu5tHD3dk56TEvCMntY" class="card ghost-card">
@@ -105,8 +127,11 @@
                 <span class="material-symbols-outlined">bookmark</span>
                 <span>Saved</span>
             </a>
-            <a href="#" class="nav-item">
-                <span class="material-symbols-outlined">person</span>
+            <a href="#" class="nav-item" id="profile-nav-item">
+                <div class="profile-icon-container">
+                    <span class="material-symbols-outlined profile-icon-default">person</span>
+                    <img id="user-avatar" class="user-avatar-nav" src="" alt="User" style="display: none;">
+                </div>
                 <span>Profile</span>
             </a>
         </nav>

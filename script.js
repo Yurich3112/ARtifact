@@ -20,6 +20,8 @@ const provider = new GoogleAuthProvider();
 // Global state
 let currentUser = null;
 let userIdToken = null;
+let userDisplayName = '';
+let userLanguage = 'en';
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Element References ---
@@ -35,9 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auth elements
     const authOverlay = document.getElementById('auth-overlay');
     const googleSigninBtn = document.getElementById('google-signin-btn');
-    const logoutBtn = document.getElementById('logout-btn');
-    const userProfile = document.getElementById('user-profile');
     const userAvatar = document.getElementById('user-avatar');
+    const profileNavItem = document.getElementById('profile-nav-item');
+    const profileIconDefault = document.querySelector('.profile-icon-default');
+    
+    // Profile settings elements
+    const profileOverlay = document.getElementById('profile-overlay');
+    const closeProfileBtn = document.getElementById('close-profile-btn');
+    const displayNameInput = document.getElementById('display-name-input');
+    const languageSelect = document.getElementById('language-select');
+    const saveSettingsBtn = document.getElementById('save-settings-btn');
+    const logoutBtn = document.getElementById('logout-btn');
 
     // --- Configuration ---
     // Your Cloudflare Worker URL
@@ -79,6 +89,16 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
 
     // --- Authentication Functions ---
 
+    // Helper function to add timeout to promises
+    const withTimeout = (promise, ms) => {
+        return Promise.race([
+            promise,
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Operation timed out')), ms)
+            )
+        ]);
+    };
+
     const handleGoogleSignIn = async () => {
         try {
             googleSigninBtn.disabled = true;
@@ -90,7 +110,7 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             console.error('Sign-in error:', error);
             alert('Failed to sign in. Please try again.');
             googleSigninBtn.disabled = false;
-            googleSigninBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18">...</svg>Sign in with Google';
+            googleSigninBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Sign in with Google';
         }
     };
 
@@ -112,14 +132,19 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         if (user) {
             // User is signed in
             authOverlay.style.display = 'none';
-            userProfile.style.display = 'flex';
             userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
+            userAvatar.style.display = 'block';
+            profileIconDefault.style.display = 'none';
             artieContainer.style.pointerEvents = 'auto';
             artieContainer.style.opacity = '1';
+            
+            // Load user preferences
+            loadUserPreferences(user);
         } else {
             // User is signed out
             authOverlay.style.display = 'flex';
-            userProfile.style.display = 'none';
+            userAvatar.style.display = 'none';
+            profileIconDefault.style.display = 'block';
             artieContainer.style.pointerEvents = 'none';
             artieContainer.style.opacity = '0.5';
             
@@ -128,7 +153,43 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
                 mainContent.classList.remove('squished');
                 artieContainer.classList.remove('chat-open');
             }
+            
+            // Close profile overlay if open
+            profileOverlay.style.display = 'none';
         }
+    };
+
+    const loadUserPreferences = (user) => {
+        // Load from localStorage
+        const savedName = localStorage.getItem(`displayName_${user.uid}`);
+        const savedLanguage = localStorage.getItem(`language_${user.uid}`);
+        
+        userDisplayName = savedName || user.displayName || '';
+        userLanguage = savedLanguage || 'en';
+        
+        // Update UI
+        displayNameInput.value = userDisplayName;
+        languageSelect.value = userLanguage;
+    };
+
+    const saveUserPreferences = () => {
+        if (!currentUser) return;
+        
+        const newDisplayName = displayNameInput.value.trim();
+        const newLanguage = languageSelect.value;
+        
+        // Save to localStorage
+        localStorage.setItem(`displayName_${currentUser.uid}`, newDisplayName);
+        localStorage.setItem(`language_${currentUser.uid}`, newLanguage);
+        
+        userDisplayName = newDisplayName;
+        userLanguage = newLanguage;
+        
+        // Close modal
+        profileOverlay.style.display = 'none';
+        
+        // Show confirmation
+        alert('Settings saved successfully!');
     };
 
     // --- Core Functions ---
@@ -143,9 +204,10 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         conversationHistory = [];
         isArtieTyping = false;
         
-        // Send initial greeting
+        // Send initial greeting using custom display name if set
         setTimeout(() => {
-            sendArtieMessage(`Hello ${currentUser.displayName?.split(' ')[0] || 'there'}! I'm ARtie, your AI guide. How can I help you explore today? ✨`);
+            const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
+            sendArtieMessage(`Hello ${nameToUse}! I'm ARtie, your AI guide. How can I help you explore today? ✨`);
         }, 500);
     };
 
@@ -296,20 +358,57 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
     // Auth event listeners
     googleSigninBtn.addEventListener('click', handleGoogleSignIn);
     logoutBtn.addEventListener('click', handleLogout);
+    
+    // Profile settings event listeners
+    profileNavItem.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (currentUser) {
+            profileOverlay.style.display = 'flex';
+        } else {
+            // Highlight the Home tab instead if not logged in
+            navItems.forEach(i => i.classList.remove('active'));
+            document.querySelector('.nav-item.active') || navItems[0].classList.add('active');
+        }
+    });
+    
+    closeProfileBtn.addEventListener('click', () => {
+        profileOverlay.style.display = 'none';
+    });
+    
+    saveSettingsBtn.addEventListener('click', saveUserPreferences);
+    
+    // Close profile overlay when clicking outside
+    profileOverlay.addEventListener('click', (event) => {
+        if (event.target === profileOverlay) {
+            profileOverlay.style.display = 'none';
+        }
+    });
 
     // Auth state observer
     onAuthStateChanged(auth, async (user) => {
         currentUser = user;
         
         if (user) {
-            // Get fresh ID token
-            userIdToken = await user.getIdToken();
-            console.log('User signed in:', user.email);
+            try {
+                // Get fresh ID token with 10 second timeout
+                userIdToken = await withTimeout(user.getIdToken(), 10000);
+                console.log('User signed in:', user.email);
+            } catch (error) {
+                console.error('Error getting ID token:', error);
+                // Sign out on token error
+                await signOut(auth);
+                alert('Authentication timeout. Please check your connection and try again.');
+                return;
+            }
         } else {
             console.log('User signed out');
         }
         
         updateUIForAuthState(user);
+        
+        // Reset sign-in button state
+        googleSigninBtn.disabled = false;
+        googleSigninBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Sign in with Google';
     });
 
     // Open chatbot
@@ -351,12 +450,14 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         }
     });
 
-    // Handle navigation clicks
+    // Handle navigation clicks (excluding profile which has its own handler)
     navItems.forEach(item => {
-        item.addEventListener('click', (event) => {
-            event.preventDefault();
-            navItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-        });
+        if (item.id !== 'profile-nav-item') {
+            item.addEventListener('click', (event) => {
+                event.preventDefault();
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        }
     });
 });
