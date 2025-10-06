@@ -37,8 +37,19 @@ const languageNames = {
 
 // Helper function to detect browser language
 const detectBrowserLanguage = () => {
-    const browserLang = navigator.language.split('-')[0];
-    return translations[browserLang] ? browserLang : 'en';
+    const browserLang = navigator.language.split('-')[0].toLowerCase();
+    
+    // Handle Ukrainian (can be 'uk' or 'ua' depending on browser/system)
+    if (browserLang === 'ua') return 'uk';
+    
+    // Debug logging
+    console.log('Detected browser language:', browserLang);
+    console.log('Has translation:', !!translations[browserLang]);
+    
+    // Return the language if we have translations for it, otherwise default to English
+    const result = translations[browserLang] ? browserLang : 'en';
+    console.log('Using language:', result);
+    return result;
 };
 
 // Helper function to resolve language (handles 'auto')
