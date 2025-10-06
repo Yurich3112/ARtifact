@@ -23,6 +23,322 @@ let userIdToken = null;
 let userDisplayName = '';
 let userLanguage = 'en';
 
+// Translations
+const translations = {
+    en: {
+        auth: {
+            welcome: 'Welcome to ARtifact',
+            subtitle: 'Sign in to chat with ARtie, your AI tour guide',
+            signIn: 'Sign in with Google',
+            note: 'Only registered users can access ARtie chatbot'
+        },
+        settings: {
+            title: 'Profile Settings',
+            displayName: 'Display Name',
+            namePlaceholder: 'Enter your name',
+            nameNote: 'This is the name ARtie will use when talking to you',
+            language: 'App Language',
+            languageNote: 'Language for the app interface (ARtie responses coming soon)',
+            save: 'Save Settings',
+            signOut: 'Sign Out'
+        },
+        cards: {
+            ghost: {
+                title: 'Ghost of the Past',
+                description: 'Uncover hidden stories and ancient secrets'
+            },
+            pathfinder: {
+                title: 'Pathfinder',
+                description: 'Navigate through mysterious locations'
+            }
+        },
+        chat: {
+            askButton: 'Ask ARtie',
+            inputPlaceholder: 'Ask ARtie...',
+            greeting: 'Hello {name}! I\'m ARtie, your AI guide. How can I help you explore today? ✨'
+        },
+        nav: {
+            home: 'Home',
+            explore: 'Explore',
+            saved: 'Saved',
+            profile: 'Profile'
+        }
+    },
+    uk: {
+        auth: {
+            welcome: 'Ласкаво просимо до ARtifact',
+            subtitle: 'Увійдіть, щоб поспілкуватися з ARtie, вашим AI-гідом',
+            signIn: 'Увійти через Google',
+            note: 'Тільки зареєстровані користувачі можуть користуватися чат-ботом ARtie'
+        },
+        settings: {
+            title: 'Налаштування профілю',
+            displayName: 'Ім\'я для відображення',
+            namePlaceholder: 'Введіть ваше ім\'я',
+            nameNote: 'Це ім\'я ARtie буде використовувати при спілкуванні з вами',
+            language: 'Мова застосунку',
+            languageNote: 'Мова інтерфейсу (мова відповідей ARtie незабаром)',
+            save: 'Зберегти',
+            signOut: 'Вийти'
+        },
+        cards: {
+            ghost: {
+                title: 'Привид минулого',
+                description: 'Розкрийте приховані історії та давні секрети'
+            },
+            pathfinder: {
+                title: 'Провідник',
+                description: 'Подорожуйте таємничими місцями'
+            }
+        },
+        chat: {
+            askButton: 'Запитати ARtie',
+            inputPlaceholder: 'Запитайте ARtie...',
+            greeting: 'Привіт, {name}! Я ARtie, твій AI-гід. Чим можу допомогти сьогодні? ✨'
+        },
+        nav: {
+            home: 'Головна',
+            explore: 'Огляд',
+            saved: 'Збережене',
+            profile: 'Профіль'
+        }
+    },
+    es: {
+        auth: {
+            welcome: 'Bienvenido a ARtifact',
+            subtitle: 'Inicia sesión para chatear con ARtie, tu guía turístico con IA',
+            signIn: 'Iniciar sesión con Google',
+            note: 'Solo los usuarios registrados pueden acceder al chatbot ARtie'
+        },
+        settings: {
+            title: 'Configuración de perfil',
+            displayName: 'Nombre para mostrar',
+            namePlaceholder: 'Introduce tu nombre',
+            nameNote: 'Este es el nombre que ARtie usará al hablar contigo',
+            language: 'Idioma de la aplicación',
+            languageNote: 'Idioma de la interfaz (respuestas de ARtie próximamente)',
+            save: 'Guardar',
+            signOut: 'Cerrar sesión'
+        },
+        cards: {
+            ghost: {
+                title: 'Fantasma del pasado',
+                description: 'Descubre historias ocultas y secretos antiguos'
+            },
+            pathfinder: {
+                title: 'Explorador',
+                description: 'Navega por lugares misteriosos'
+            }
+        },
+        chat: {
+            askButton: 'Preguntar a ARtie',
+            inputPlaceholder: 'Pregunta a ARtie...',
+            greeting: '¡Hola {name}! Soy ARtie, tu guía de IA. ¿Cómo puedo ayudarte a explorar hoy? ✨'
+        },
+        nav: {
+            home: 'Inicio',
+            explore: 'Explorar',
+            saved: 'Guardado',
+            profile: 'Perfil'
+        }
+    },
+    fr: {
+        auth: {
+            welcome: 'Bienvenue sur ARtifact',
+            subtitle: 'Connectez-vous pour discuter avec ARtie, votre guide touristique IA',
+            signIn: 'Se connecter avec Google',
+            note: 'Seuls les utilisateurs enregistrés peuvent accéder au chatbot ARtie'
+        },
+        settings: {
+            title: 'Paramètres du profil',
+            displayName: 'Nom d\'affichage',
+            namePlaceholder: 'Entrez votre nom',
+            nameNote: 'C\'est le nom qu\'ARtie utilisera pour vous parler',
+            language: 'Langue de l\'application',
+            languageNote: 'Langue de l\'interface (réponses ARtie bientôt)',
+            save: 'Enregistrer',
+            signOut: 'Se déconnecter'
+        },
+        cards: {
+            ghost: {
+                title: 'Fantôme du passé',
+                description: 'Découvrez des histoires cachées et des secrets anciens'
+            },
+            pathfinder: {
+                title: 'Éclaireur',
+                description: 'Naviguez dans des lieux mystérieux'
+            }
+        },
+        chat: {
+            askButton: 'Demander à ARtie',
+            inputPlaceholder: 'Demandez à ARtie...',
+            greeting: 'Bonjour {name}! Je suis ARtie, votre guide IA. Comment puis-je vous aider à explorer aujourd\'hui? ✨'
+        },
+        nav: {
+            home: 'Accueil',
+            explore: 'Explorer',
+            saved: 'Enregistré',
+            profile: 'Profil'
+        }
+    },
+    de: {
+        auth: {
+            welcome: 'Willkommen bei ARtifact',
+            subtitle: 'Melden Sie sich an, um mit ARtie, Ihrem KI-Reiseführer, zu chatten',
+            signIn: 'Mit Google anmelden',
+            note: 'Nur registrierte Benutzer können auf den ARtie-Chatbot zugreifen'
+        },
+        settings: {
+            title: 'Profileinstellungen',
+            displayName: 'Anzeigename',
+            namePlaceholder: 'Geben Sie Ihren Namen ein',
+            nameNote: 'Dies ist der Name, den ARtie verwenden wird, wenn er mit Ihnen spricht',
+            language: 'App-Sprache',
+            languageNote: 'Sprache der Benutzeroberfläche (ARtie-Antworten demnächst)',
+            save: 'Speichern',
+            signOut: 'Abmelden'
+        },
+        cards: {
+            ghost: {
+                title: 'Geist der Vergangenheit',
+                description: 'Entdecken Sie verborgene Geschichten und alte Geheimnisse'
+            },
+            pathfinder: {
+                title: 'Pfadfinder',
+                description: 'Navigieren Sie durch geheimnisvolle Orte'
+            }
+        },
+        chat: {
+            askButton: 'ARtie fragen',
+            inputPlaceholder: 'Fragen Sie ARtie...',
+            greeting: 'Hallo {name}! Ich bin ARtie, dein KI-Guide. Wie kann ich dir heute beim Erkunden helfen? ✨'
+        },
+        nav: {
+            home: 'Startseite',
+            explore: 'Erkunden',
+            saved: 'Gespeichert',
+            profile: 'Profil'
+        }
+    },
+    it: {
+        auth: {
+            welcome: 'Benvenuto su ARtifact',
+            subtitle: 'Accedi per chattare con ARtie, la tua guida turistica AI',
+            signIn: 'Accedi con Google',
+            note: 'Solo gli utenti registrati possono accedere al chatbot ARtie'
+        },
+        settings: {
+            title: 'Impostazioni profilo',
+            displayName: 'Nome visualizzato',
+            namePlaceholder: 'Inserisci il tuo nome',
+            nameNote: 'Questo è il nome che ARtie userà quando parla con te',
+            language: 'Lingua dell\'app',
+            languageNote: 'Lingua dell\'interfaccia (risposte ARtie presto)',
+            save: 'Salva',
+            signOut: 'Esci'
+        },
+        cards: {
+            ghost: {
+                title: 'Fantasma del passato',
+                description: 'Scopri storie nascoste e segreti antichi'
+            },
+            pathfinder: {
+                title: 'Esploratore',
+                description: 'Naviga attraverso luoghi misteriosi'
+            }
+        },
+        chat: {
+            askButton: 'Chiedi ad ARtie',
+            inputPlaceholder: 'Chiedi ad ARtie...',
+            greeting: 'Ciao {name}! Sono ARtie, la tua guida AI. Come posso aiutarti a esplorare oggi? ✨'
+        },
+        nav: {
+            home: 'Home',
+            explore: 'Esplora',
+            saved: 'Salvati',
+            profile: 'Profilo'
+        }
+    },
+    cs: {
+        auth: {
+            welcome: 'Vítejte v ARtifact',
+            subtitle: 'Přihlaste se a chatujte s ARtie, vaším AI průvodcem',
+            signIn: 'Přihlásit se pomocí Google',
+            note: 'Pouze registrovaní uživatelé mají přístup k chatbotu ARtie'
+        },
+        settings: {
+            title: 'Nastavení profilu',
+            displayName: 'Zobrazované jméno',
+            namePlaceholder: 'Zadejte své jméno',
+            nameNote: 'Toto je jméno, které ARtie použije při rozhovoru s vámi',
+            language: 'Jazyk aplikace',
+            languageNote: 'Jazyk rozhraní (odpovědi ARtie již brzy)',
+            save: 'Uložit',
+            signOut: 'Odhlásit se'
+        },
+        cards: {
+            ghost: {
+                title: 'Duch minulosti',
+                description: 'Odhalte skryté příběhy a pradávná tajemství'
+            },
+            pathfinder: {
+                title: 'Průzkumník',
+                description: 'Procházejte tajemnými místy'
+            }
+        },
+        chat: {
+            askButton: 'Zeptat se ARtie',
+            inputPlaceholder: 'Zeptejte se ARtie...',
+            greeting: 'Ahoj {name}! Jsem ARtie, tvůj AI průvodce. Jak ti dnes mohu pomoci s průzkumem? ✨'
+        },
+        nav: {
+            home: 'Domů',
+            explore: 'Prozkoumat',
+            saved: 'Uložené',
+            profile: 'Profil'
+        }
+    },
+    pl: {
+        auth: {
+            welcome: 'Witamy w ARtifact',
+            subtitle: 'Zaloguj się, aby porozmawiać z ARtie, swoim przewodnikiem AI',
+            signIn: 'Zaloguj się przez Google',
+            note: 'Tylko zarejestrowani użytkownicy mają dostęp do chatbota ARtie'
+        },
+        settings: {
+            title: 'Ustawienia profilu',
+            displayName: 'Wyświetlana nazwa',
+            namePlaceholder: 'Wpisz swoje imię',
+            nameNote: 'To jest imię, którego ARtie będzie używać rozmawiając z tobą',
+            language: 'Język aplikacji',
+            languageNote: 'Język interfejsu (odpowiedzi ARtie wkrótce)',
+            save: 'Zapisz',
+            signOut: 'Wyloguj się'
+        },
+        cards: {
+            ghost: {
+                title: 'Duch przeszłości',
+                description: 'Odkryj ukryte historie i starożytne tajemnice'
+            },
+            pathfinder: {
+                title: 'Tropiciel',
+                description: 'Poruszaj się po tajemniczych lokacjach'
+            }
+        },
+        chat: {
+            askButton: 'Zapytaj ARtie',
+            inputPlaceholder: 'Zapytaj ARtie...',
+            greeting: 'Cześć {name}! Jestem ARtie, twój przewodnik AI. Jak mogę pomóc ci w eksploracji dzisiaj? ✨'
+        },
+        nav: {
+            home: 'Strona główna',
+            explore: 'Eksploruj',
+            saved: 'Zapisane',
+            profile: 'Profil'
+        }
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- Element References ---
     const artieContainer = document.getElementById('ask-artie-container');
@@ -102,7 +418,10 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
     const handleGoogleSignIn = async () => {
         try {
             googleSigninBtn.disabled = true;
-            googleSigninBtn.textContent = 'Signing in...';
+            const textSpan = googleSigninBtn.querySelector('[data-i18n="auth.signIn"]');
+            if (textSpan) {
+                textSpan.textContent = 'Signing in...';
+            }
             
             const result = await signInWithPopup(auth, provider);
             // User signed in successfully - onAuthStateChanged will handle the rest
@@ -110,7 +429,14 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             console.error('Sign-in error:', error);
             alert('Failed to sign in. Please try again.');
             googleSigninBtn.disabled = false;
-            googleSigninBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Sign in with Google';
+            
+            // Restore the sign-in text based on current language
+            const browserLang = navigator.language.split('-')[0];
+            const currentLang = translations[browserLang] ? browserLang : 'en';
+            const textSpan = googleSigninBtn.querySelector('[data-i18n="auth.signIn"]');
+            if (textSpan) {
+                textSpan.textContent = translations[currentLang].auth.signIn;
+            }
         }
     };
 
@@ -148,6 +474,11 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             artieContainer.style.pointerEvents = 'none';
             artieContainer.style.opacity = '0.5';
             
+            // Apply default language for logged out users
+            const browserLang = navigator.language.split('-')[0];
+            const defaultLang = translations[browserLang] ? browserLang : 'en';
+            applyTranslations(defaultLang);
+            
             // Close chat if open
             if (artieContainer.classList.contains('chat-open')) {
                 mainContent.classList.remove('squished');
@@ -157,6 +488,33 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             // Close profile overlay if open
             profileOverlay.style.display = 'none';
         }
+    };
+
+    const applyTranslations = (lang) => {
+        const t = translations[lang] || translations['en'];
+        
+        // Helper function to get nested translation
+        const getTranslation = (key) => {
+            const keys = key.split('.');
+            let value = t;
+            for (const k of keys) {
+                value = value[k];
+                if (!value) return key;
+            }
+            return value;
+        };
+        
+        // Apply translations to all elements with data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            el.textContent = getTranslation(key);
+        });
+        
+        // Apply translations to placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            el.placeholder = getTranslation(key);
+        });
     };
 
     const loadUserPreferences = (user) => {
@@ -170,6 +528,9 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         // Update UI
         displayNameInput.value = userDisplayName;
         languageSelect.value = userLanguage;
+        
+        // Apply translations
+        applyTranslations(userLanguage);
     };
 
     const saveUserPreferences = () => {
@@ -185,10 +546,13 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         userDisplayName = newDisplayName;
         userLanguage = newLanguage;
         
+        // Apply new language
+        applyTranslations(newLanguage);
+        
         // Close modal
         profileOverlay.style.display = 'none';
         
-        // Reinitialize chat if it's open to update greeting with new name
+        // Reinitialize chat if it's open to update greeting with new name and language
         if (isChatInitialized && artieContainer.classList.contains('chat-open')) {
             chatMessages.innerHTML = '';
             conversationHistory = [];
@@ -202,7 +566,9 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             });
             
             setTimeout(() => {
-                sendArtieMessage(`Hello ${nameToUse}! I'm ARtie, your AI guide. How can I help you explore today? ✨`);
+                const t = translations[userLanguage] || translations['en'];
+                const greeting = t.chat.greeting.replace('{name}', nameToUse);
+                sendArtieMessage(greeting);
             }, 300);
         }
     };
@@ -226,9 +592,11 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             content: `The user's name is ${nameToUse}. Remember to use their name naturally in conversation when appropriate.`
         });
         
-        // Send initial greeting using custom display name if set
+        // Send initial greeting using custom display name and language
         setTimeout(() => {
-            sendArtieMessage(`Hello ${nameToUse}! I'm ARtie, your AI guide. How can I help you explore today? ✨`);
+            const t = translations[userLanguage] || translations['en'];
+            const greeting = t.chat.greeting.replace('{name}', nameToUse);
+            sendArtieMessage(greeting);
         }, 500);
     };
 
@@ -429,7 +797,12 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         
         // Reset sign-in button state
         googleSigninBtn.disabled = false;
-        googleSigninBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>Sign in with Google';
+        const textSpan = googleSigninBtn.querySelector('[data-i18n="auth.signIn"]');
+        if (textSpan) {
+            const currentLang = user ? userLanguage : (navigator.language.split('-')[0]);
+            const lang = translations[currentLang] ? currentLang : 'en';
+            textSpan.textContent = translations[lang].auth.signIn;
+        }
     });
 
     // Open chatbot

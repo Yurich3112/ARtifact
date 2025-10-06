@@ -13,8 +13,8 @@
     <div id="auth-overlay" class="auth-overlay">
         <div class="auth-modal">
             <img src="logo.png" alt="ARtifact Logo" class="auth-logo">
-            <h2>Welcome to ARtifact</h2>
-            <p>Sign in to chat with ARtie, your AI tour guide</p>
+            <h2 data-i18n="auth.welcome">Welcome to ARtifact</h2>
+            <p data-i18n="auth.subtitle">Sign in to chat with ARtie, your AI tour guide</p>
             <button id="google-signin-btn" class="google-signin-btn">
                 <svg width="18" height="18" viewBox="0 0 18 18">
                     <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
@@ -22,35 +22,38 @@
                     <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
                     <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
                 </svg>
-                Sign in with Google
+                <span data-i18n="auth.signIn">Sign in with Google</span>
             </button>
-            <p class="auth-note">Only registered users can access ARtie chatbot</p>
+            <p class="auth-note" data-i18n="auth.note">Only registered users can access ARtie chatbot</p>
         </div>
     </div>
 
     <!-- Profile Settings Overlay -->
     <div id="profile-overlay" class="auth-overlay" style="display: none;">
         <div class="auth-modal">
-            <h2>Profile Settings</h2>
+            <h2 data-i18n="settings.title">Profile Settings</h2>
             <div class="profile-settings-content">
                 <div class="setting-group">
-                    <label for="display-name-input">Display Name</label>
-                    <input type="text" id="display-name-input" class="profile-input" placeholder="Enter your name">
-                    <p class="setting-note">This is the name ARtie will use when talking to you</p>
+                    <label for="display-name-input" data-i18n="settings.displayName">Display Name</label>
+                    <input type="text" id="display-name-input" class="profile-input" data-i18n-placeholder="settings.namePlaceholder">
+                    <p class="setting-note" data-i18n="settings.nameNote">This is the name ARtie will use when talking to you</p>
                 </div>
                 <div class="setting-group">
-                    <label for="language-select">App Language</label>
+                    <label for="language-select" data-i18n="settings.language">App Language</label>
                     <select id="language-select" class="profile-select">
                         <option value="en">English</option>
                         <option value="uk">Українська</option>
                         <option value="es">Español</option>
                         <option value="fr">Français</option>
                         <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="cs">Čeština</option>
+                        <option value="pl">Polski</option>
                     </select>
-                    <p class="setting-note">Language for the app interface (ARtie responses coming soon)</p>
+                    <p class="setting-note" data-i18n="settings.languageNote">Language for the app interface (ARtie responses coming soon)</p>
                 </div>
-                <button id="save-settings-btn" class="google-signin-btn">Save Settings</button>
-                <button id="logout-btn" class="logout-settings-btn">Sign Out</button>
+                <button id="save-settings-btn" class="google-signin-btn" data-i18n="settings.save">Save Settings</button>
+                <button id="logout-btn" class="logout-settings-btn" data-i18n="settings.signOut">Sign Out</button>
             </div>
             <button id="close-profile-btn" class="close-profile-btn">&times;</button>
         </div>
@@ -68,8 +71,8 @@
                     <span class="material-symbols-outlined">view_in_ar</span>
                 </div>
                 <div class="card-text">
-                    <h2>Ghost of the Past</h2>
-                    <p>Uncover hidden stories and ancient secrets</p>
+                    <h2 data-i18n="cards.ghost.title">Ghost of the Past</h2>
+                    <p data-i18n="cards.ghost.description">Uncover hidden stories and ancient secrets</p>
                 </div>
             </a>
 
@@ -78,8 +81,8 @@
                     <span class="material-symbols-outlined">explore</span>
                 </div>
                 <div class="card-text">
-                    <h2>Pathfinder</h2>
-                    <p>Navigate through mysterious locations</p>
+                    <h2 data-i18n="cards.pathfinder.title">Pathfinder</h2>
+                    <p data-i18n="cards.pathfinder.description">Navigate through mysterious locations</p>
                 </div>
             </a>
         </main>
@@ -89,7 +92,7 @@
             <!-- The visible button content -->
             <div class="ask-artie-btn-content">
                 <span class="material-symbols-outlined">auto_awesome</span>
-                <span class="btn-text">Ask ARtie</span>
+                <span class="btn-text" data-i18n="chat.askButton">Ask ARtie</span>
             </div>
 
             <!-- The chat window is INSIDE the button container -->
@@ -105,7 +108,7 @@
                     <!-- Messages will be injected here by script.js -->
                 </div>
                 <div class="chat-input-area">
-                    <input id="chat-input" type="text" placeholder="Ask ARtie...">
+                    <input id="chat-input" type="text" data-i18n-placeholder="chat.inputPlaceholder">
                     <button id="send-btn" class="send-btn">
                         <span class="material-symbols-outlined">send</span>
                     </button>
@@ -117,22 +120,22 @@
         <nav class="bottom-nav">
             <a href="#" class="nav-item active">
                 <span class="material-symbols-outlined">home</span>
-                <span>Home</span>
+                <span data-i18n="nav.home">Home</span>
             </a>
             <a href="#" class="nav-item">
                 <span class="material-symbols-outlined">search</span>
-                <span>Explore</span>
+                <span data-i18n="nav.explore">Explore</span>
             </a>
             <a href="#" class="nav-item">
                 <span class="material-symbols-outlined">bookmark</span>
-                <span>Saved</span>
+                <span data-i18n="nav.saved">Saved</span>
             </a>
             <a href="#" class="nav-item" id="profile-nav-item">
                 <div class="profile-icon-container">
                     <span class="material-symbols-outlined profile-icon-default">person</span>
                     <img id="user-avatar" class="user-avatar-nav" src="" alt="User" style="display: none;">
                 </div>
-                <span>Profile</span>
+                <span data-i18n="nav.profile">Profile</span>
             </a>
         </nav>
     </div>
