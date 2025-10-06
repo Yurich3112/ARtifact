@@ -6,7 +6,7 @@
 
 **ARtifact** is an intelligent AR tour guide application that brings history and culture to life through Augmented Reality and AI-powered conversations. Developed by **Harmon AI** for the **Kreativ OutHack International** hackathon.
 
-![ARtifact Banner](bg.png)
+![ARtifact Banner](logo.png)
 
 ## 🌟 Overview
 
