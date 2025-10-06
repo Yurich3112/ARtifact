@@ -188,8 +188,16 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         // Close modal
         profileOverlay.style.display = 'none';
         
-        // Show confirmation
-        alert('Settings saved successfully!');
+        // Reinitialize chat if it's open to update greeting with new name
+        if (isChatInitialized && artieContainer.classList.contains('chat-open')) {
+            chatMessages.innerHTML = '';
+            conversationHistory = [];
+            isArtieTyping = false;
+            setTimeout(() => {
+                const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'there';
+                sendArtieMessage(`Hello ${nameToUse}! I'm ARtie, your AI guide. How can I help you explore today? ✨`);
+            }, 300);
+        }
     };
 
     // --- Core Functions ---
@@ -309,6 +317,10 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
         }
         
         try {
+            // Add user's name to system prompt
+            const nameToUse = userDisplayName || currentUser.displayName?.split(' ')[0] || 'the user';
+            const personalizedSystemPrompt = SYSTEM_PROMPT + `\n\nIMPORTANT: The user's name is ${nameToUse}. Address them by this name when appropriate.`;
+            
             const response = await fetch(API_PROXY_URL, {
                 method: 'POST',
                 headers: {
@@ -318,7 +330,7 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
                 body: JSON.stringify({
                     message: userMessage,
                     history: conversationHistory,
-                    systemPrompt: SYSTEM_PROMPT
+                    systemPrompt: personalizedSystemPrompt
                 })
             });
 
