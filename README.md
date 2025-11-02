@@ -1,4 +1,3 @@
-# ARtifact 🏛️✨
 
 [![Kreativ OutHack](https://img.shields.io/badge/Kreativ-OutHack%20International-blue)](https://kreativeu.org/)
 [![Firebase](https://img.shields.io/badge/Firebase-Authentication-orange)](https://firebase.google.com)

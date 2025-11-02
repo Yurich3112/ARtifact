@@ -9,8 +9,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
     <!-- Login Overlay -->
-    <div id="auth-overlay" class="auth-overlay">
+    <div id="auth-overlay" class="auth-overlay" style="display: none;">
         <div class="auth-modal">
             <img src="logo.png" alt="ARtifact Logo" class="auth-logo">
             <h2 data-i18n="auth.welcome">Welcome to ARtifact</h2>
@@ -67,7 +74,7 @@
     </header>
 
         <main id="main-content" class="main-content">
-            <a href="https://app.vectary.com/p/2xRRu5tHD3dk56TEvCMntY" class="card ghost-card">
+            <a href="ghost-of-past.html" class="card ghost-card">
                 <div class="card-icon">
                     <span class="material-symbols-outlined">view_in_ar</span>
                 </div>
@@ -77,7 +84,7 @@
                 </div>
             </a>
 
-            <a href="https://app.vectary.com/p/0pxcWFFfppQnA4NoZz64RL" class="card pathfinder-card">
+            <a href="pathfinder.html" class="card pathfinder-card">
                 <div class="card-icon">
                     <span class="material-symbols-outlined">explore</span>
                 </div>

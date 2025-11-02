@@ -96,6 +96,30 @@ const translations = {
             explore: 'Explore',
             saved: 'Saved',
             profile: 'Profile'
+        },
+        ghost: {
+            title: 'Ghost of the Past',
+            searchPlaceholder: 'Search monuments...',
+            nearbyMonuments: 'Nearby Monuments'
+        },
+        pathfinder: {
+            title: 'Pathfinder',
+            greeting: 'Hello',
+            subtitle: 'Where shall we journey today?',
+            artieSuggestion: "ARtie's Suggestion",
+            suggestionText: "I see you're in Prague! There's a wonderful route through the Old Town with incredible historical landmarks nearby. Want to try?",
+            startRoute: 'Start',
+            askMore: 'Ask More',
+            nearby: 'Nearby',
+            popular: 'Popular',
+            custom: 'Custom',
+            recommendedRoutes: '🌟 Recommended Routes',
+            showAll: 'Show all routes',
+            orAskArtie: '💬 Or ask ARtie',
+            artieChatDesc: 'Create your own route with me',
+            openChat: 'Open chat',
+            resumeJourney: '🔄 Resume Journey',
+            continue: 'Continue'
         }
     },
     uk: {
@@ -135,6 +159,30 @@ const translations = {
             explore: 'Огляд',
             saved: 'Збережене',
             profile: 'Профіль'
+        },
+        ghost: {
+            title: 'Привид минулого',
+            searchPlaceholder: 'Пошук пам\'яток...',
+            nearbyMonuments: 'Пам\'ятки поблизу'
+        },
+        pathfinder: {
+            title: 'Провідник',
+            greeting: 'Привіт',
+            subtitle: 'Куди подорожуємо сьогодні?',
+            artieSuggestion: 'Пропозиція від ARtie',
+            suggestionText: 'Я бачу, ти в Празі! Поблизу є чудовий маршрут по Старому Місту з неймовірними історичними пам\'ятками. Хочеш спробувати?',
+            startRoute: 'Розпочати',
+            askMore: 'Запитати',
+            nearby: 'Поблизу',
+            popular: 'Популярні',
+            custom: 'Власні',
+            recommendedRoutes: '🌟 Рекомендовані маршрути',
+            showAll: 'Показати всі маршрути',
+            orAskArtie: '💬 Або запитай ARtie',
+            artieChatDesc: 'Створи власний маршрут разом зі мною',
+            openChat: 'Відкрити чат',
+            resumeJourney: '🔄 Продовжити подорож',
+            continue: 'Продовжити'
         }
     },
     es: {
@@ -174,6 +222,25 @@ const translations = {
             explore: 'Explorar',
             saved: 'Guardado',
             profile: 'Perfil'
+        },
+        pathfinder: {
+            title: 'Explorador',
+            greeting: 'Hola',
+            subtitle: '¿A dónde viajamos hoy?',
+            artieSuggestion: 'Sugerencia de ARtie',
+            suggestionText: '¡Veo que estás en Praga! Hay una ruta maravillosa por el Casco Antiguo con increíbles monumentos históricos cerca. ¿Quieres probar?',
+            startRoute: 'Comenzar',
+            askMore: 'Preguntar',
+            nearby: 'Cerca',
+            popular: 'Popular',
+            custom: 'Personal',
+            recommendedRoutes: '🌟 Rutas recomendadas',
+            showAll: 'Mostrar todas las rutas',
+            orAskArtie: '💬 O pregunta a ARtie',
+            artieChatDesc: 'Crea tu propia ruta conmigo',
+            openChat: 'Abrir chat',
+            resumeJourney: '🔄 Continuar viaje',
+            continue: 'Continuar'
         }
     },
     fr: {
@@ -213,6 +280,25 @@ const translations = {
             explore: 'Explorer',
             saved: 'Enregistré',
             profile: 'Profil'
+        },
+        pathfinder: {
+            title: 'Éclaireur',
+            greeting: 'Bonjour',
+            subtitle: 'Où voyageons-nous aujourd\'hui ?',
+            artieSuggestion: 'Suggestion d\'ARtie',
+            suggestionText: 'Je vois que vous êtes à Prague ! Il y a un merveilleux itinéraire dans la Vieille Ville avec d\'incroyables monuments historiques à proximité. Voulez-vous essayer ?',
+            startRoute: 'Commencer',
+            askMore: 'Demander',
+            nearby: 'À proximité',
+            popular: 'Populaire',
+            custom: 'Personnalisé',
+            recommendedRoutes: '🌟 Itinéraires recommandés',
+            showAll: 'Afficher tous les itinéraires',
+            orAskArtie: '💬 Ou demandez à ARtie',
+            artieChatDesc: 'Créez votre propre itinéraire avec moi',
+            openChat: 'Ouvrir le chat',
+            resumeJourney: '🔄 Reprendre le voyage',
+            continue: 'Continuer'
         }
     },
     de: {
@@ -252,6 +338,25 @@ const translations = {
             explore: 'Erkunden',
             saved: 'Gespeichert',
             profile: 'Profil'
+        },
+        pathfinder: {
+            title: 'Pfadfinder',
+            greeting: 'Hallo',
+            subtitle: 'Wohin reisen wir heute?',
+            artieSuggestion: 'ARties Vorschlag',
+            suggestionText: 'Ich sehe, du bist in Prag! Es gibt eine wunderbare Route durch die Altstadt mit unglaublichen historischen Sehenswürdigkeiten in der Nähe. Möchtest du es versuchen?',
+            startRoute: 'Starten',
+            askMore: 'Fragen',
+            nearby: 'In der Nähe',
+            popular: 'Beliebt',
+            custom: 'Benutzerdefiniert',
+            recommendedRoutes: '🌟 Empfohlene Routen',
+            showAll: 'Alle Routen anzeigen',
+            orAskArtie: '💬 Oder frag ARtie',
+            artieChatDesc: 'Erstelle deine eigene Route mit mir',
+            openChat: 'Chat öffnen',
+            resumeJourney: '🔄 Reise fortsetzen',
+            continue: 'Fortsetzen'
         }
     },
     it: {
@@ -291,6 +396,25 @@ const translations = {
             explore: 'Esplora',
             saved: 'Salvati',
             profile: 'Profilo'
+        },
+        pathfinder: {
+            title: 'Esploratore',
+            greeting: 'Ciao',
+            subtitle: 'Dove viaggiamo oggi?',
+            artieSuggestion: 'Suggerimento di ARtie',
+            suggestionText: 'Vedo che sei a Praga! C\'è un meraviglioso percorso attraverso il Centro Storico con incredibili monumenti storici nelle vicinanze. Vuoi provare?',
+            startRoute: 'Inizia',
+            askMore: 'Chiedi',
+            nearby: 'Vicino',
+            popular: 'Popolare',
+            custom: 'Personalizzato',
+            recommendedRoutes: '🌟 Percorsi consigliati',
+            showAll: 'Mostra tutti i percorsi',
+            orAskArtie: '💬 Oppure chiedi ad ARtie',
+            artieChatDesc: 'Crea il tuo percorso con me',
+            openChat: 'Apri chat',
+            resumeJourney: '🔄 Riprendi viaggio',
+            continue: 'Continua'
         }
     },
     cs: {
@@ -330,6 +454,25 @@ const translations = {
             explore: 'Prozkoumat',
             saved: 'Uložené',
             profile: 'Profil'
+        },
+        pathfinder: {
+            title: 'Průzkumník',
+            greeting: 'Ahoj',
+            subtitle: 'Kam dnes cestujeme?',
+            artieSuggestion: 'Návrh od ARtie',
+            suggestionText: 'Vidím, že jsi v Praze! V blízkosti je nádherná trasa po Starém Městě s neuvěřitelnými historickými památkami. Chceš to zkusit?',
+            startRoute: 'Začít',
+            askMore: 'Zeptat se',
+            nearby: 'V okolí',
+            popular: 'Oblíbené',
+            custom: 'Vlastní',
+            recommendedRoutes: '🌟 Doporučené trasy',
+            showAll: 'Zobrazit všechny trasy',
+            orAskArtie: '💬 Nebo se zeptej ARtie',
+            artieChatDesc: 'Vytvoř si vlastní trasu se mnou',
+            openChat: 'Otevřít chat',
+            resumeJourney: '🔄 Pokračovat v cestě',
+            continue: 'Pokračovat'
         }
     },
     pl: {
@@ -369,11 +512,101 @@ const translations = {
             explore: 'Eksploruj',
             saved: 'Zapisane',
             profile: 'Profil'
+        },
+        pathfinder: {
+            title: 'Tropiciel',
+            greeting: 'Cześć',
+            subtitle: 'Dokąd dzisiaj podróżujemy?',
+            artieSuggestion: 'Sugestia ARtie',
+            suggestionText: 'Widzę, że jesteś w Pradze! W pobliżu jest wspaniała trasa przez Stare Miasto z niesamowitymi zabytkami historycznymi. Chcesz spróbować?',
+            startRoute: 'Rozpocznij',
+            askMore: 'Zapytaj',
+            nearby: 'W pobliżu',
+            popular: 'Popularne',
+            custom: 'Własne',
+            recommendedRoutes: '🌟 Polecane trasy',
+            showAll: 'Pokaż wszystkie trasy',
+            orAskArtie: '💬 Lub zapytaj ARtie',
+            artieChatDesc: 'Stwórz własną trasę ze mną',
+            openChat: 'Otwórz czat',
+            resumeJourney: '🔄 Kontynuuj podróż',
+            continue: 'Kontynuuj'
         }
     }
 };
 
+// Quick translation function for initial load (before DOM ready)
+const applyTranslationsQuick = (lang) => {
+    const browserLang = navigator.language.split('-')[0].toLowerCase();
+    const detectedLang = browserLang === 'ua' ? 'uk' : (translations[browserLang] ? browserLang : 'en');
+    const resolvedLang = lang === 'auto' ? detectedLang : lang;
+    const t = translations[resolvedLang] || translations['en'];
+    
+    // Helper function to get nested translation
+    const getTranslation = (key) => {
+        const keys = key.split('.');
+        let value = t;
+        for (const k of keys) {
+            value = value[k];
+            if (!value) return key;
+        }
+        return value;
+    };
+    
+    // Apply translations to all elements with data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = getTranslation(key);
+    });
+    
+    // Apply translations to placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        el.placeholder = getTranslation(key);
+    });
+};
+
+// Apply initial translations BEFORE DOM is fully loaded to prevent flashing
+// This runs synchronously with HTML parsing
+(function initializeTranslationsEarly() {
+    // Try to determine language from localStorage immediately
+    let initialLang = 'auto';
+    
+    try {
+        // Check for any saved language preference
+        const allKeys = Object.keys(localStorage);
+        for (const key of allKeys) {
+            if (key.startsWith('language_')) {
+                const userLang = localStorage.getItem(key);
+                if (userLang && userLang !== 'auto') {
+                    initialLang = userLang;
+                    break;
+                }
+            }
+        }
+    } catch (e) {
+        console.log('Could not access localStorage for early translation');
+    }
+    
+    // If still auto, detect browser language
+    if (initialLang === 'auto') {
+        const browserLang = navigator.language.split('-')[0].toLowerCase();
+        initialLang = browserLang === 'ua' ? 'uk' : (translations[browserLang] ? browserLang : 'en');
+    }
+    
+    console.log('Early language detection:', initialLang);
+    
+    // Store for later use
+    window.__initialLanguage = initialLang;
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Apply translations IMMEDIATELY before anything else
+    if (window.__initialLanguage) {
+        console.log('Applying initial translations for language:', window.__initialLanguage);
+        applyTranslationsQuick(window.__initialLanguage);
+    }
+    
     // --- Element References ---
     const artieContainer = document.getElementById('ask-artie-container');
     const chatbotWindow = document.getElementById('chatbot-window');
@@ -510,8 +743,8 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             artieContainer.style.pointerEvents = 'none';
             artieContainer.style.opacity = '0.5';
             
-            // Apply auto-detected language for logged out users
-            applyTranslations('auto');
+            // Translations already applied on initial load
+            // No need to reapply here to prevent flashing
             
             // Close chat if open
             if (artieContainer.classList.contains('chat-open')) {
@@ -522,35 +755,25 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             // Close profile overlay if open
             profileOverlay.style.display = 'none';
         }
+        
+        // Show the page after auth state is determined
+        hideLoadingScreen();
+    };
+    
+    const hideLoadingScreen = () => {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            loadingScreen.classList.add('fade-out');
+            // Remove from DOM after animation completes
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 300);
+        }
     };
 
     const applyTranslations = (lang) => {
-        // Resolve 'auto' to actual language
-        const resolvedLang = resolveLanguage(lang);
-        const t = translations[resolvedLang] || translations['en'];
-        
-        // Helper function to get nested translation
-        const getTranslation = (key) => {
-            const keys = key.split('.');
-            let value = t;
-            for (const k of keys) {
-                value = value[k];
-                if (!value) return key;
-            }
-            return value;
-        };
-        
-        // Apply translations to all elements with data-i18n
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            el.textContent = getTranslation(key);
-        });
-        
-        // Apply translations to placeholders
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-            const key = el.getAttribute('data-i18n-placeholder');
-            el.placeholder = getTranslation(key);
-        });
+        // Use the quick function for actual translation
+        applyTranslationsQuick(lang);
     };
 
     const loadUserPreferences = (user) => {
@@ -833,6 +1056,8 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
                 // Sign out on token error
                 await signOut(auth);
                 alert('Authentication timeout. Please check your connection and try again.');
+                // Hide loading screen even on error
+                hideLoadingScreen();
                 return;
             }
         } else {
@@ -849,6 +1074,11 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             textSpan.textContent = translations[currentLang].auth.signIn;
         }
     });
+    
+    // Fallback: Hide loading screen after max 5 seconds if not already hidden
+    setTimeout(() => {
+        hideLoadingScreen();
+    }, 5000);
 
     // Open chatbot
     artieContainer.addEventListener('click', () => {
@@ -899,4 +1129,21 @@ Inspire curiosity and guide users to use "Ghost of the Past" or "Pathfinder." Ev
             });
         }
     });
+
+    // Check if we should open chat on load (from query parameter)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('openChat') === 'true' && currentUser) {
+        // Open the chat
+        if (!artieContainer.classList.contains('chat-open')) {
+            mainContent.classList.add('squished');
+            artieContainer.classList.add('chat-open');
+            
+            if (!isChatInitialized) {
+                initializeChat();
+                isChatInitialized = true;
+            }
+        }
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
 });
