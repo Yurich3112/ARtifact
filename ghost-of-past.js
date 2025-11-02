@@ -5,6 +5,7 @@ const monuments = [
     {
         id: 1,
         name: "New Synagogue in Opole",
+        city: "opole",
         lat: 50.66639,
         lng: 17.92083,
         distance: "1.1 km",
@@ -14,6 +15,7 @@ const monuments = [
     {
         id: 2,
         name: "Ancient Castle Ruins",
+        city: "prague",
         lat: 50.0874,
         lng: 14.4212,
         distance: "0.5 km",
@@ -22,6 +24,7 @@ const monuments = [
     {
         id: 3,
         name: "Historic Town Square",
+        city: "prague",
         lat: 50.0755,
         lng: 14.4378,
         distance: "1.2 km",
@@ -30,6 +33,7 @@ const monuments = [
     {
         id: 4,
         name: "Old Cathedral",
+        city: "prague",
         lat: 50.0903,
         lng: 14.4006,
         distance: "0.8 km",
@@ -38,6 +42,7 @@ const monuments = [
     {
         id: 5,
         name: "Medieval Bridge",
+        city: "prague",
         lat: 50.0865,
         lng: 14.4114,
         distance: "0.3 km",
@@ -46,6 +51,7 @@ const monuments = [
     {
         id: 6,
         name: "Royal Palace Gardens",
+        city: "prague",
         lat: 50.0891,
         lng: 14.4033,
         distance: "0.6 km",
@@ -54,6 +60,7 @@ const monuments = [
     {
         id: 7,
         name: "Ancient Tower",
+        city: "prague",
         lat: 50.0827,
         lng: 14.4195,
         distance: "0.9 km",
@@ -61,9 +68,17 @@ const monuments = [
     }
 ];
 
+// City coordinates for map centering
+const cities = {
+    all: { center: [16.17, 50.37], zoom: 6 },
+    opole: { center: [17.92083, 50.66639], zoom: 13 },
+    prague: { center: [14.4212, 50.0874], zoom: 13 }
+};
+
 // Initialize the map
 let map;
 let markers = [];
+let currentCity = 'all'; // Track currently selected city
 
 document.addEventListener('DOMContentLoaded', () => {
     // Apply saved language preference if available
@@ -72,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeMap();
     renderMonumentTiles();
     setupSearch();
+    setupCitySelector();
     
     // Fallback: Hide loading screen after max 7 seconds if map doesn't load
     setTimeout(() => {
@@ -109,7 +125,7 @@ function initializeMap() {
         container: 'map',
         style: 'https://tiles.openfreemap.org/styles/liberty',
         center: [16.17, 50.37], // Centered between Prague and Opole
-        zoom: 8,
+        zoom: 6,
         maxZoom: 18,
         minZoom: 6
     });
@@ -233,19 +249,61 @@ function setupSearch() {
         const searchTerm = e.target.value.toLowerCase();
 
         searchTimeout = setTimeout(() => {
-            const filteredMonuments = monuments.filter(monument =>
-                monument.name.toLowerCase().includes(searchTerm)
-            );
-
-            // Update tiles
-            renderMonumentTiles(filteredMonuments);
-
-            // Update marker visibility
-            markers.forEach(({ marker, monument }) => {
-                const isVisible = monument.name.toLowerCase().includes(searchTerm);
-                marker.getElement().style.display = isVisible ? 'flex' : 'none';
-            });
+            filterMonuments(searchTerm);
         }, 300);
+    });
+}
+
+function setupCitySelector() {
+    const citySelect = document.getElementById('city-select');
+    
+    citySelect.addEventListener('change', (e) => {
+        currentCity = e.target.value;
+        
+        // Reset search input
+        const searchInput = document.getElementById('search-input');
+        searchInput.value = '';
+        
+        // Update map view
+        const cityData = cities[currentCity];
+        map.flyTo({
+            center: cityData.center,
+            zoom: cityData.zoom,
+            duration: 1500,
+            essential: true
+        });
+        
+        // Filter monuments
+        filterMonuments('');
+    });
+}
+
+function filterMonuments(searchTerm = '') {
+    // Filter by city first
+    let filteredMonuments = monuments;
+    
+    if (currentCity !== 'all') {
+        filteredMonuments = filteredMonuments.filter(monument => 
+            monument.city === currentCity
+        );
+    }
+    
+    // Then filter by search term
+    if (searchTerm) {
+        filteredMonuments = filteredMonuments.filter(monument =>
+            monument.name.toLowerCase().includes(searchTerm)
+        );
+    }
+
+    // Update tiles
+    renderMonumentTiles(filteredMonuments);
+
+    // Update marker visibility
+    markers.forEach(({ marker, monument }) => {
+        const matchesCity = currentCity === 'all' || monument.city === currentCity;
+        const matchesSearch = !searchTerm || monument.name.toLowerCase().includes(searchTerm);
+        const isVisible = matchesCity && matchesSearch;
+        marker.getElement().style.display = isVisible ? 'flex' : 'none';
     });
 }
 

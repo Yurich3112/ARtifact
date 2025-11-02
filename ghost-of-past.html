@@ -27,8 +27,16 @@
             <div class="header-spacer"></div>
         </header>
 
-        <!-- Search Bar -->
+        <!-- City Selector and Search Bar -->
         <div class="search-container">
+            <div class="city-selector">
+                <span class="material-symbols-outlined city-icon">location_city</span>
+                <select id="city-select" class="city-dropdown">
+                    <option value="all">All Cities</option>
+                    <option value="opole">Opole</option>
+                    <option value="prague">Prague</option>
+                </select>
+            </div>
             <div class="search-box">
                 <span class="material-symbols-outlined search-icon">search</span>
                 <input type="text" id="search-input" data-i18n-placeholder="ghost.searchPlaceholder" placeholder="Search monuments...">
